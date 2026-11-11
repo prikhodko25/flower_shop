@@ -1,0 +1,15 @@
+# Службові файли .NET
+bin/
+obj/
+.vs/
+.vscode/
+
+# Локальні налаштування
+*.user
+*.suo
+.env
+.env.*
+appsettings.Development.json
+
+# Тимчасові файли
+*.log

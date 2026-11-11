@@ -1,0 +1,2719 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Квітко — квіти з любов'ю</title>
+
+<style>
+:root {
+    --rose: #d9899b;
+    --rose-light: #f8e5e8;
+    --sage: #718b72;
+    --sage-light: #e7eee4;
+    --cream: #fcf9f5;
+    --ink: #343b34;
+    --muted: #85877f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+header {
+    background: rgba(252, 249, 245, .97);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #eee7e1;
+}
+
+.topbar {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    border: 0;
+    background: none;
+    color: var(--sage);
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: var(--rose);
+}
+
+.search {
+    flex: 1;
+    min-width: 180px;
+}
+
+.search input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e9e1db;
+    border-radius: 30px;
+    background: white;
+}
+
+body.home-page .search {
+    display: none;
+}
+
+.nav {
+    margin-left: auto; /* Навігація притиснута до правого краю */
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.nav button {
+    border: 0;
+    background: transparent;
+    padding: 10px;
+    color: var(--ink);
+    border-radius: 20px;
+}
+
+.nav button.active,
+.nav button:hover {
+    background: var(--rose-light);
+    color: #9c5265;
+}
+
+.cart-button {
+    border: 0;
+    border-radius: 25px;
+    padding: 10px 14px;
+    background: var(--sage-light);
+    color: var(--ink);
+}
+
+.count {
+    background: var(--rose);
+    color: white;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 28px 24px 60px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fade .25s ease;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    font-size: clamp(32px, 4vw, 52px);
+}
+
+h2 {
+    font-size: 28px;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+p {
+    line-height: 1.65;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sage);
+}
+
+.btn {
+    display: inline-block;
+    border: 0;
+    border-radius: 28px;
+    background: var(--sage);
+    color: white;
+    padding: 13px 21px;
+    transition: .2s;
+}
+
+.btn:hover {
+    filter: brightness(.95);
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.btn.rose {
+    background: var(--rose);
+}
+
+.btn.outline {
+    background: transparent;
+    color: var(--sage);
+    border: 1px solid var(--sage);
+}
+
+.btn.light {
+    background: var(--rose-light);
+    color: #8d4d5d;
+}
+
+.hero {
+    min-height: 350px;
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--rose-light);
+    margin-bottom: 35px;
+}
+
+.hero-copy {
+    padding: 48px 36px;
+    align-self: center;
+}
+
+.hero-copy p {
+    max-width: 390px;
+    color: #69655f;
+}
+
+.hero-image {
+    background:
+        linear-gradient(90deg, #f8e5e8 0%, transparent 25%),
+        url("https://images.unsplash.com/photo-1494972308805-463bc619d34e?auto=format&fit=crop&w=1200&q=85")
+        center/cover;
+    min-height: 300px;
+}
+
+.section-head {
+    margin: 30px 0 20px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.product {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #f0e8e1;
+    transition: .2s;
+    min-width: 0;
+}
+
+.product:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px #49372b0d;
+}
+
+.product-info {
+    padding: 18px;
+}
+
+.product-info h3 {
+    margin-bottom: 7px;
+}
+
+.product-desc {
+    font-size: 13px;
+    color: var(--muted);
+    min-height: 55px;
+}
+
+.product-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.price {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.add {
+    border: 0;
+    background: var(--rose-light);
+    color: #955468;
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    font-size: 23px;
+}
+
+.add:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.stock {
+    color: var(--sage);
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.stock.out {
+    color: #b65d64;
+}
+
+.page-title {
+    margin-bottom: 25px;
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.filters select,
+.field input,
+.field select,
+.field textarea {
+    border: 1px solid #e7ded7;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    width: 100%;
+    color: var(--ink);
+}
+
+.filters select {
+    width: auto;
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.empty {
+    text-align: center;
+    padding: 65px 20px;
+    background: white;
+    border-radius: 20px;
+    border: 1px dashed #e5dcd4;
+}
+
+.emoji {
+    font-size: 44px;
+    margin-bottom: 12px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 26px;
+    align-items: start;
+}
+
+.panel {
+    background: white;
+    padding: 24px;
+    border-radius: 18px;
+    border: 1px solid #eee7e1;
+    margin-bottom: 18px;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee7e1;
+    align-items: center;
+}
+
+.cart-item:last-child {
+    border-bottom: 0;
+}
+
+.stepper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.stepper button {
+    border: 1px solid #e8dfd8;
+    background: white;
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+}
+
+.remove {
+    border: 0;
+    background: none;
+    color: #b36a74;
+    margin-top: 6px;
+    font-size: 12px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.summary-row.total {
+    border-top: 1px solid #eee7e1;
+    padding-top: 17px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.field {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 16px;
+}
+
+.field label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1px solid #e8dfd8;
+    padding: 14px;
+    border-radius: 12px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.choice:has(input:checked) {
+    border-color: var(--sage);
+    background: #f5f8f2;
+}
+
+.choice input {
+    accent-color: var(--sage);
+    margin-top: 5px;
+}
+
+.choice span {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.order {
+    background: white;
+    border: 1px solid #eee7e1;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.order-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.status {
+    display: inline-block;
+    border-radius: 20px;
+    padding: 7px 11px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #fff0d6;
+    color: #93651e;
+}
+
+.auth-panel {
+    max-width: 480px;
+    margin: 30px auto;
+}
+
+.auth-switch {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.auth-actions .btn {
+    padding: 10px 15px;
+}
+
+footer {
+    background: #f2eee7;
+    padding: 28px 24px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translate(-50%, 20px);
+    opacity: 0;
+    pointer-events: none;
+    background: #354936;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 30px;
+    z-index: 30;
+    transition: .25s;
+    box-shadow: 0 5px 25px #0002;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media(max-width:950px) {
+    .products {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media(max-width:650px) {
+    main {
+        padding: 20px 14px 40px;
+    }
+
+    .topbar {
+        padding: 12px 14px;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-copy {
+        padding: 30px 23px;
+    }
+
+    .hero-image {
+        min-height: 240px;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .product-info {
+        padding: 12px;
+    }
+
+    .price {
+        font-size: 16px;
+    }
+
+    .layout,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Фото букетів у каталозі */
+.product-image {
+    width: 100%;
+    height: 210px;
+    display: block;
+    object-fit: cover;
+    background: var(--rose-light);
+}
+.product-image-placeholder {
+    height: 210px;
+    display: grid;
+    place-items: center;
+    background: var(--rose-light);
+    color: var(--sage);
+    font-size: 46px;
+}
+
+
+/* Пошук відображається виключно на сторінці каталогу */
+.search { display: none; }
+body.catalog-page .search { display: block; }
+
+/* Кнопки в нижніх кутах вікна, незалежно від прокручування */
+.cart-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+#bottomLogout {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    background: var(--cream);
+}
+@media (max-width: 650px) {
+    .cart-button { right: 12px; bottom: 12px; }
+    #bottomLogout { left: 12px; bottom: 12px; }
+}
+
+/* Кнопки входу та реєстрації у нижньому лівому куті */
+#authButtons.bottom-auth {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+@media (max-width: 650px) {
+    #authButtons.bottom-auth { left: 12px; bottom: 12px; gap: 6px; }
+    #authButtons.bottom-auth .btn { padding: 9px 11px; font-size: 13px; }
+}
+</style>
+</head>
+
+<body class="home-page">
+
+<!-- =====================================================
+     ШАПКА САЙТА
+===================================================== -->
+
+<header>
+    <div class="topbar">
+
+        <button class="logo" onclick="go('home')">
+            <span>❀</span> Квітко
+        </button>
+
+        <div class="search">
+            <input
+                id="search"
+                type="search"
+                placeholder="Знайти квіти..."
+                oninput="renderProducts()">
+        </div>
+
+        <nav class="nav">
+
+            <button
+                data-page="home"
+                class="active"
+                onclick="go('home')">
+                Головна
+            </button>
+
+            <button
+                data-page="catalog"
+                onclick="go('catalog')">
+                Каталог
+            </button>
+
+            <button
+                data-page="orders"
+                onclick="go('orders')">
+                Мої замовлення
+            </button>
+
+        </nav>
+
+        <div
+            id="userButtons"
+            class="auth-actions"
+            style="display:none">
+
+            <span id="userGreeting" class="muted"></span>
+
+
+
+        </div>
+
+
+
+    </div>
+</header>
+
+<!-- Кнопки внизу екрана, поза шапкою -->
+<div id="authButtons" class="auth-actions bottom-auth">
+
+            <button class="btn outline" onclick="go('login')">
+                Вхід
+            </button>
+
+            <button class="btn rose" onclick="go('register')">
+                Реєстрація
+            </button>
+
+        </div>
+<button id="bottomLogout" class="btn outline" onclick="logout()" style="display:none">Вийти</button>
+<button class="cart-button" onclick="go('cart')">♧ Кошик <span class="count" id="cartCount">0</span></button>
+
+<main>
+
+<!-- =====================================================
+     ГЛАВНАЯ
+===================================================== -->
+
+<section id="home" class="page active">
+
+    <div class="hero">
+
+        <div class="hero-copy">
+
+            <div class="eyebrow">
+                Квіти, що говорять за тебе
+            </div>
+
+            <h1>
+                Трохи ніжності<br>
+                у кожному букеті
+            </h1>
+
+            <p>
+                Обирай квіти та створюй особливі
+                моменти разом із «Квітко».
+            </p>
+
+            <button class="btn" onclick="go('catalog')">
+                Зробити замовлення ↗
+            </button>
+
+        </div>
+
+        <div class="hero-image"></div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     КАТАЛОГ
+===================================================== -->
+
+<section id="catalog" class="page">
+
+    <div class="page-title">
+
+        <div class="eyebrow">
+            Наша колекція
+        </div>
+
+        <h1>Каталог квітів</h1>
+
+        <p class="muted">
+            Обирай улюблені букети.
+        </p>
+
+    </div>
+
+    <div class="filters">
+
+        <select id="sortFilter" onchange="renderProducts()">
+
+            <option value="default">
+                За замовчуванням
+            </option>
+
+            <option value="asc">
+                Від дешевих до дорогих
+            </option>
+
+            <option value="desc">
+                Від дорогих до дешевих
+            </option>
+
+        </select>
+
+        <label class="toggle">
+
+            <input
+                type="checkbox"
+                id="stockFilter"
+                onchange="renderProducts()">
+
+            Тільки в наявності
+
+        </label>
+
+    </div>
+
+    <p class="muted" id="catalogCount"></p>
+
+    <div class="products" id="catalogProducts"></div>
+
+</section>
+
+<!-- =====================================================
+     КОРЗИНА
+===================================================== -->
+
+<section id="cart" class="page">
+
+    <div class="page-title">
+
+        <div class="eyebrow">
+            Твої обрані товари
+        </div>
+
+        <h1>Кошик</h1>
+
+    </div>
+
+    <div id="cartContent"></div>
+
+</section>
+
+<!-- =====================================================
+     ОФОРМЛЕНИЕ ЗАКАЗА
+===================================================== -->
+
+<section id="checkout" class="page">
+
+    <div class="page-title">
+
+        <div class="eyebrow">
+            Ще один крок
+        </div>
+
+        <h1>Оформлення замовлення</h1>
+
+        <p class="muted">
+            Заповни контактні дані та дані отримання.
+        </p>
+
+    </div>
+
+    <div id="checkoutContent"></div>
+
+</section>
+
+<!-- =====================================================
+     МОИ ЗАКАЗЫ
+===================================================== -->
+
+<section id="orders" class="page">
+
+    <div class="page-title">
+
+        <div class="eyebrow">
+            Історія покупок
+        </div>
+
+        <h1>Мої замовлення</h1>
+
+    </div>
+
+    <div id="ordersContent"></div>
+
+</section>
+
+<!-- =====================================================
+     РЕГИСТРАЦИЯ
+===================================================== -->
+
+<section id="register" class="page">
+
+    <div class="panel auth-panel">
+
+        <div class="eyebrow">
+            Створи свій акаунт
+        </div>
+
+        <h1>Реєстрація</h1>
+
+        <p class="muted">
+            Зареєструйся, щоб оформлювати
+            замовлення та переглядати історію покупок.
+        </p>
+
+        <form id="registerForm" onsubmit="registerUser(event)">
+
+            <div class="field">
+
+                <label for="registerFirstName">
+                    Ім'я *
+                </label>
+
+                <input
+                    id="registerFirstName"
+                    required
+                    maxlength="100"
+                    autocomplete="given-name">
+
+            </div>
+
+            <div class="field">
+
+                <label for="registerLastName">
+                    Прізвище *
+                </label>
+
+                <input
+                    id="registerLastName"
+                    required
+                    maxlength="100"
+                    autocomplete="family-name">
+
+            </div>
+
+            <div class="field">
+
+                <label for="registerEmail">
+                    Електронна пошта *
+                </label>
+
+                <input
+                    id="registerEmail"
+                    type="email"
+                    required
+                    maxlength="255"
+                    autocomplete="email">
+
+            </div>
+
+            <div class="field">
+
+                <label for="registerPassword">
+                    Пароль *
+                </label>
+
+                <input
+                    id="registerPassword"
+                    type="password"
+                    required
+                    minlength="8"
+                    maxlength="128"
+                    autocomplete="new-password">
+
+                <small class="muted">
+                    Мінімум 8 символів.
+                </small>
+
+            </div>
+
+            <div class="field">
+
+                <label for="registerConfirm">
+                    Підтвердження пароля *
+                </label>
+
+                <input
+                    id="registerConfirm"
+                    type="password"
+                    required
+                    minlength="8"
+                    autocomplete="new-password">
+
+            </div>
+
+            <button
+                class="btn rose"
+                type="submit"
+                style="width:100%">
+
+                Зареєструватися
+
+            </button>
+
+        </form>
+
+        <div class="auth-switch">
+
+            <p>Вже маєш акаунт?</p>
+
+            <button
+                class="btn outline"
+                onclick="go('login')">
+
+                Увійти
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     ВХОД
+===================================================== -->
+
+<section id="login" class="page">
+
+    <div class="panel auth-panel">
+
+        <div class="eyebrow">
+            Раді бачити знову
+        </div>
+
+        <h1>Вхід</h1>
+
+        <p class="muted">
+            Увійди до свого акаунта.
+        </p>
+
+        <form id="loginForm" onsubmit="loginUser(event)">
+
+            <div class="field">
+
+                <label for="loginEmail">
+                    Електронна пошта *
+                </label>
+
+                <input
+                    id="loginEmail"
+                    type="email"
+                    required
+                    autocomplete="email">
+
+            </div>
+
+            <div class="field">
+
+                <label for="loginPassword">
+                    Пароль *
+                </label>
+
+                <input
+                    id="loginPassword"
+                    type="password"
+                    required
+                    autocomplete="current-password">
+
+            </div>
+
+            <button
+                class="btn rose"
+                type="submit"
+                style="width:100%">
+
+                Увійти
+
+            </button>
+
+        </form>
+
+        <div class="auth-switch">
+
+            <p>Ще немає акаунта?</p>
+
+            <button
+                class="btn outline"
+                onclick="go('register')">
+
+                Зареєструватися
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<!-- =====================================================
+     ПОДВАЛ
+===================================================== -->
+
+<footer>
+
+    <div style="
+        font-family:Georgia,serif;
+        font-size:24px;
+        color:var(--sage)">
+
+        ❀ Квітко
+
+    </div>
+
+    <p>Квіти, створені з любов'ю ♡</p>
+
+    <small>© 2026 Квітко.</small>
+
+</footer>
+
+<div id="toast" class="toast"></div>
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+// =====================================================
+// 1. ПЕРЕМЕННЫЕ
+// =====================================================
+
+let products = [];
+let orders = [];
+let cart = {};
+let currentUser = null;
+
+const money = n =>
+    new Intl.NumberFormat("uk-UA", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(Number(n) || 0) + " ₴";
+
+const getProduct = id =>
+    products.find(p => Number(p.product_id) === Number(id));
+
+const cartItems = () =>
+    Object.entries(cart)
+        .map(([id, qty]) => ({
+            p: getProduct(id),
+            qty: Number(qty)
+        }))
+        .filter(x => x.p && x.qty > 0);
+
+const subtotal = () =>
+    cartItems().reduce(
+        (sum, x) => sum + Number(x.p.price) * x.qty,
+        0
+    );
+
+const cartTotal = () => subtotal();
+
+// =====================================================
+// 2. УВЕДОМЛЕНИЯ
+// =====================================================
+
+function toast(message) {
+
+    const el = document.getElementById("toast");
+
+    el.textContent = message;
+    el.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer = setTimeout(() => {
+        el.classList.remove("show");
+    }, 3000);
+}
+
+// =====================================================
+// 3. БЕЗОПАСНЫЙ ВЫВОД ТЕКСТА
+// =====================================================
+
+function escapeHtml(value) {
+
+    return String(value ?? "").replace(
+        /[&<>"']/g,
+        char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char])
+    );
+}
+
+// =====================================================
+// 4. ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ
+// =====================================================
+
+function go(page) {
+
+    document.body.classList.toggle("catalog-page", page === "catalog");
+
+    document.body.classList.toggle(
+        "home-page",
+        page === "home"
+    );
+
+    document.querySelectorAll(".page").forEach(el => {
+        el.classList.toggle(
+            "active",
+            el.id === page
+        );
+    });
+
+    document.querySelectorAll(".nav button").forEach(el => {
+        el.classList.toggle(
+            "active",
+            el.dataset.page === page
+        );
+    });
+
+    document.getElementById("search").value = "";
+
+    if (page === "catalog") {
+        renderProducts();
+    }
+
+    if (page === "cart") {
+        renderCart();
+    }
+
+    if (page === "checkout") {
+        renderCheckout();
+    }
+
+    if (page === "orders") {
+        loadOrders();
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+// =====================================================
+// 5. ОБНОВЛЕНИЕ КНОПОК АВТОРИЗАЦИИ
+// =====================================================
+
+function updateAuthUI() {
+
+    const authButtons =
+        document.getElementById("authButtons");
+
+    const userButtons =
+        document.getElementById("userButtons");
+
+    const greeting =
+        document.getElementById("userGreeting");
+
+    document.getElementById("bottomLogout").style.display =
+        currentUser ? "inline-block" : "none";
+
+    if (currentUser) {
+
+        authButtons.style.display = "none";
+        userButtons.style.display = "flex";
+
+        greeting.textContent =
+            "Вітаємо, " + currentUser.first_name + "!";
+
+    } else {
+
+        authButtons.style.display = "flex";
+        userButtons.style.display = "none";
+
+        greeting.textContent = "";
+    }
+}
+
+// =====================================================
+// 6. ПРОВЕРКА ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ
+// =====================================================
+
+async function checkAuth() {
+
+    try {
+
+        const response = await fetch("/api/me");
+
+        if (response.ok) {
+
+            currentUser = await response.json();
+
+        } else {
+
+            currentUser = null;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Помилка перевірки авторизації:",
+            error
+        );
+
+        currentUser = null;
+    }
+
+    updateAuthUI();
+}
+
+// =====================================================
+// 7. РЕГИСТРАЦИЯ
+// =====================================================
+
+async function registerUser(event) {
+
+    event.preventDefault();
+
+    const form = event.target;
+
+    const firstName =
+        document.getElementById("registerFirstName")
+            .value.trim();
+
+    const lastName =
+        document.getElementById("registerLastName")
+            .value.trim();
+
+    const email =
+        document.getElementById("registerEmail")
+            .value.trim();
+
+    const password =
+        document.getElementById("registerPassword")
+            .value;
+
+    const confirm =
+        document.getElementById("registerConfirm")
+            .value;
+
+    if (password !== confirm) {
+
+        toast("Паролі не збігаються");
+        return;
+    }
+
+    if (password.length < 8) {
+
+        toast("Пароль має містити щонайменше 8 символів");
+        return;
+    }
+
+    const button = form.querySelector(
+        'button[type="submit"]'
+    );
+
+    button.disabled = true;
+
+    try {
+
+        const response = await fetch("/api/register", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                password
+            })
+        });
+
+        if (!response.ok) {
+
+            if (response.status === 409) {
+
+                toast("Ця пошта вже зареєстрована");
+
+            } else {
+
+                toast("Не вдалося зареєструватися");
+            }
+
+            return;
+        }
+
+        currentUser = await response.json();
+
+        updateAuthUI();
+
+        form.reset();
+
+        toast("Реєстрація успішна!");
+
+        go("home");
+
+    } catch (error) {
+
+        console.error(error);
+
+        toast("Помилка з'єднання із сервером");
+
+    } finally {
+
+        button.disabled = false;
+    }
+}
+
+// =====================================================
+// 8. ВХОД
+// =====================================================
+
+async function loginUser(event) {
+
+    event.preventDefault();
+
+    const form = event.target;
+
+    const email =
+        document.getElementById("loginEmail")
+            .value.trim();
+
+    const password =
+        document.getElementById("loginPassword")
+            .value;
+
+    const button = form.querySelector(
+        'button[type="submit"]'
+    );
+
+    button.disabled = true;
+
+    try {
+
+        const response = await fetch("/api/login", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email,
+                password
+            })
+        });
+
+        if (!response.ok) {
+
+            toast("Неправильна пошта або пароль");
+            return;
+        }
+
+        currentUser = await response.json();
+
+        updateAuthUI();
+
+        form.reset();
+
+        toast("Вхід успішний!");
+
+        go("home");
+
+    } catch (error) {
+
+        console.error(error);
+
+        toast("Помилка з'єднання із сервером");
+
+    } finally {
+
+        button.disabled = false;
+    }
+}
+
+// =====================================================
+// 9. ВЫХОД
+// =====================================================
+
+async function logout() {
+
+    try {
+
+        const response = await fetch("/api/logout", {
+            method: "POST"
+        });
+
+        if (!response.ok) {
+            throw new Error("Logout failed");
+        }
+
+        currentUser = null;
+        orders = [];
+        cart = {};
+
+        renderCartCount();
+        updateAuthUI();
+
+        toast("Ви вийшли з акаунта");
+
+        go("home");
+
+    } catch (error) {
+
+        console.error(error);
+
+        toast("Не вдалося вийти з акаунта");
+    }
+}
+
+// =====================================================
+// 10. КАРТОЧКА ТОВАРА
+// =====================================================
+
+// Локальні фотографії з папки wwwroot/images.
+// Якщо додасте нові товари, можна доповнити цей список.
+const productImages = {
+    1: "/images/red-roses.jpg",
+    2: "/images/white-roses.jpg",
+    3: "/images/pink-peonies.jpg",
+    4: "/images/tulips.jpg",
+    5: "/images/sunflowers.jpg",
+    6: "/images/white-lilies.jpg",
+    7: "/images/hydrangeas.jpg",
+    8: "/images/daisies.jpg"
+};
+
+function productCard(p) {
+
+    const available =
+        Boolean(p.is_available) &&
+        Number(p.quantity) > 0;
+
+    return `
+        <article class="product">
+
+            ${productImages[Number(p.product_id)]
+                ? `<img class="product-image"
+                        src="${productImages[Number(p.product_id)]}"
+                        alt="${escapeHtml(p.name)}"
+                        loading="lazy"
+                        referrerpolicy="no-referrer"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+                   <div class="product-image-placeholder" style="display:none" aria-hidden="true">🌷</div>`
+                : `<div class="product-image-placeholder" aria-hidden="true">🌷</div>`}
+
+            <div class="product-info">
+
+                <h3>${escapeHtml(p.name)}</h3>
+
+                <div class="product-desc">
+                    ${escapeHtml(p.description || "")}
+                </div>
+
+                <div class="stock ${available ? "" : "out"}">
+
+                    ${
+                        available
+                            ? "● В наявності: " + Number(p.quantity)
+                            : "Наразі немає"
+                    }
+
+                </div>
+
+                <div class="product-bottom">
+
+                    <span class="price">
+                        ${money(p.price)}
+                    </span>
+
+                    <button
+                        class="add"
+                        title="Додати в кошик"
+                        ${available ? "" : "disabled"}
+                        onclick="addToCart(${Number(p.product_id)})">
+
+                        +
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+    `;
+}
+
+// =====================================================
+// 11. КАТАЛОГ
+// =====================================================
+
+function renderProducts() {
+
+    const search =
+        document.getElementById("search")
+            .value.trim().toLowerCase();
+
+    const sort =
+        document.getElementById("sortFilter").value;
+
+    const onlyStock =
+        document.getElementById("stockFilter").checked;
+
+    let list = products.filter(p => {
+
+        const matchesSearch =
+            `${p.name} ${p.description || ""}`
+                .toLowerCase()
+                .includes(search);
+
+        const matchesStock =
+            !onlyStock ||
+            (
+                Boolean(p.is_available) &&
+                Number(p.quantity) > 0
+            );
+
+        return matchesSearch && matchesStock;
+    });
+
+    if (sort === "asc") {
+
+        list.sort(
+            (a, b) => Number(a.price) - Number(b.price)
+        );
+    }
+
+    if (sort === "desc") {
+
+        list.sort(
+            (a, b) => Number(b.price) - Number(a.price)
+        );
+    }
+
+    document.getElementById("catalogCount").textContent =
+        `Знайдено товарів: ${list.length}`;
+
+    const empty = `
+        <div class="empty" style="grid-column:1/-1">
+            <div class="emoji">🌷</div>
+            <h3>Товарів поки немає</h3>
+        </div>
+    `;
+
+    document.getElementById("catalogProducts").innerHTML =
+        list.length
+            ? list.map(productCard).join("")
+            : empty;
+
+
+}
+
+// =====================================================
+// 12. ДОБАВЛЕНИЕ В КОРЗИНУ
+// =====================================================
+
+function addToCart(id) {
+
+    const p = getProduct(id);
+
+    if (!p || !p.is_available || Number(p.quantity) <= 0) {
+        return;
+    }
+
+    if ((cart[id] || 0) >= Number(p.quantity)) {
+
+        toast("Більше товару немає в наявності");
+        return;
+    }
+
+    cart[id] = (cart[id] || 0) + 1;
+
+    renderCartCount();
+    renderProducts();
+
+    toast("Додано до кошика: " + p.name);
+}
+
+// =====================================================
+// 13. КОЛИЧЕСТВО ТОВАРОВ В КОРЗИНЕ
+// =====================================================
+
+function renderCartCount() {
+
+    document.getElementById("cartCount").textContent =
+        Object.values(cart).reduce(
+            (sum, qty) => sum + Number(qty),
+            0
+        );
+}
+
+// =====================================================
+// 14. ИЗМЕНЕНИЕ КОЛИЧЕСТВА
+// =====================================================
+
+function changeQty(id, delta) {
+
+    const p = getProduct(id);
+
+    if (!p) return;
+
+    const next = (cart[id] || 0) + delta;
+
+    if (next <= 0) {
+
+        delete cart[id];
+
+    } else if (next <= Number(p.quantity)) {
+
+        cart[id] = next;
+
+    } else {
+
+        toast("Більше товару немає в наявності");
+    }
+
+    renderCartCount();
+    renderCart();
+}
+
+// =====================================================
+// 15. УДАЛЕНИЕ ИЗ КОРЗИНЫ
+// =====================================================
+
+function removeItem(id) {
+
+    delete cart[id];
+
+    renderCartCount();
+    renderCart();
+
+    toast("Товар видалено з кошика");
+}
+
+// =====================================================
+// 16. ИТОГОВАЯ СУММА
+// =====================================================
+
+function summary() {
+
+    const quantity = cartItems().reduce(
+        (sum, x) => sum + x.qty,
+        0
+    );
+
+    return `
+        <div class="panel">
+
+            <h2>Твоє замовлення</h2>
+
+            <div class="summary-row">
+
+                <span>
+                    Кількість товарів (${quantity})
+                </span>
+
+                <span>${money(subtotal())}</span>
+
+            </div>
+
+            <div class="summary-row total">
+
+                <span>Разом</span>
+
+                <span>${money(cartTotal())}</span>
+
+            </div>
+
+        </div>
+    `;
+}
+
+// =====================================================
+// 17. ОТОБРАЖЕНИЕ КОРЗИНЫ
+// =====================================================
+
+function renderCart() {
+
+    const items = cartItems();
+
+    const el = document.getElementById("cartContent");
+
+    if (!items.length) {
+
+        el.innerHTML = `
+            <div class="empty">
+
+                <div class="emoji">🧺</div>
+
+                <h2>Кошик поки порожній</h2>
+
+                <p class="muted">
+                    Додані товари з'являться тут.
+                </p>
+
+                <button
+                    class="btn"
+                    onclick="go('catalog')">
+
+                    Перейти до каталогу
+
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = `
+        <div class="layout">
+
+            <div class="panel">
+
+                ${items.map(({p, qty}) => `
+
+                    <div class="cart-item">
+
+                        <div>
+
+                            <h3>${escapeHtml(p.name)}</h3>
+
+                            <div class="muted">
+                                ${money(p.price)} / шт.
+                            </div>
+
+                            <div class="stepper">
+
+                                <button
+                                    onclick="changeQty(${p.product_id}, -1)">
+                                    −
+                                </button>
+
+                                <b>${qty}</b>
+
+                                <button
+                                    onclick="changeQty(${p.product_id}, 1)">
+                                    +
+                                </button>
+
+                            </div>
+
+                            <button
+                                class="remove"
+                                onclick="removeItem(${p.product_id})">
+
+                                Видалити
+
+                            </button>
+
+                        </div>
+
+                        <b>
+                            ${money(Number(p.price) * qty)}
+                        </b>
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+
+            <div>
+
+                ${summary()}
+
+                <button
+                    class="btn"
+                    style="width:100%"
+                    onclick="go('checkout')">
+
+                    Оформити замовлення →
+
+                </button>
+
+                <button
+                    class="btn outline"
+                    style="width:100%;margin-top:10px"
+                    onclick="go('catalog')">
+
+                    Продовжити покупки
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+// =====================================================
+// 18. ОФОРМЛЕНИЕ ЗАКАЗА
+// =====================================================
+
+function renderCheckout() {
+
+    const el = document.getElementById("checkoutContent");
+
+    if (!currentUser) {
+
+        go("login");
+
+        toast("Увійдіть, щоб оформити замовлення");
+
+        return;
+    }
+
+    if (!cartItems().length) {
+
+        el.innerHTML = `
+            <div class="empty">
+
+                <div class="emoji">💐</div>
+
+                <h2>Спочатку додай товар до кошика</h2>
+
+                <button
+                    class="btn"
+                    onclick="go('catalog')">
+
+                    До каталогу
+
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    const fullName =
+        currentUser.first_name + " " +
+        currentUser.last_name;
+
+    el.innerHTML = `
+        <form id="checkoutForm" class="layout">
+
+            <div>
+
+                <div class="panel">
+
+                    <h2>1. Дані покупця</h2>
+
+                    <div class="field">
+
+                        <label for="customerName">
+                            Ім'я та прізвище *
+                        </label>
+
+                        <input
+                            id="customerName"
+                            required
+                            maxlength="100"
+                            value="${escapeHtml(fullName)}">
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="field">
+
+                            <label for="phone">
+                                Номер телефону *
+                            </label>
+
+                            <input
+                                id="phone"
+                                type="tel"
+                                required
+                                maxlength="20">
+
+                        </div>
+
+                        <div class="field">
+
+                            <label for="email">
+                                Електронна пошта
+                            </label>
+
+                            <input
+                                id="email"
+                                type="email"
+                                readonly
+                                value="${escapeHtml(currentUser.email)}">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <h2>2. Отримання замовлення</h2>
+
+                    <label class="choice">
+
+                        <input
+                            type="radio"
+                            name="delivery"
+                            value="Доставка"
+                            checked
+                            onchange="toggleAddress()">
+
+                        <div>
+                            <b>Доставка</b>
+                            <span>
+                                Доставка за вказаною адресою
+                            </span>
+                        </div>
+
+                    </label>
+
+                    <label class="choice">
+
+                        <input
+                            type="radio"
+                            name="delivery"
+                            value="Самовивіз"
+                            onchange="toggleAddress()">
+
+                        <div>
+                            <b>Самовивіз</b>
+                            <span>
+                                Самостійне отримання замовлення
+                            </span>
+                        </div>
+
+                    </label>
+
+                    <div id="addressFields">
+
+                        <div class="field">
+
+                            <label for="address">
+                                Адреса доставки *
+                            </label>
+
+                            <input
+                                id="address"
+                                required
+                                maxlength="255">
+
+                        </div>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label for="deliveryDate">
+                            Дата отримання *
+                        </label>
+
+                        <input
+                            id="deliveryDate"
+                            type="date"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <h2>3. Спосіб оплати</h2>
+
+                    <label class="choice">
+
+                        <input
+                            type="radio"
+                            name="payment"
+                            value="Онлайн"
+                            checked>
+
+                        <div>
+                            <b>Карткою онлайн</b>
+                        </div>
+
+                    </label>
+
+                    <label class="choice">
+
+                        <input
+                            type="radio"
+                            name="payment"
+                            value="Готівка">
+
+                        <div>
+                            <b>Готівкою при отриманні</b>
+                        </div>
+
+                    </label>
+
+                    <label class="choice">
+
+                        <input
+                            type="radio"
+                            name="payment"
+                            value="Картка">
+
+                        <div>
+                            <b>Карткою при отриманні</b>
+                        </div>
+
+                    </label>
+
+
+                </div>
+
+            </div>
+
+            <div>
+
+                ${summary()}
+
+                <button
+                    class="btn rose"
+                    type="submit"
+                    style="width:100%">
+
+                    Підтвердити замовлення ♡
+
+                </button>
+
+
+
+            </div>
+
+        </form>
+    `;
+
+    const date =
+        document.getElementById("deliveryDate");
+
+    const now = new Date();
+
+    const today = new Date(
+        now.getTime() -
+        now.getTimezoneOffset() * 60000
+    ).toISOString().slice(0, 10);
+
+    date.min = today;
+    date.value = today;
+
+    document.getElementById("checkoutForm")
+        .addEventListener("submit", submitOrder);
+}
+
+// =====================================================
+// 19. ПОКАЗ АДРЕСА ДОСТАВКИ
+// =====================================================
+
+function toggleAddress() {
+
+    const delivery = document.querySelector(
+        'input[name="delivery"]:checked'
+    ).value === "Доставка";
+
+    document.getElementById("addressFields").style.display =
+        delivery ? "block" : "none";
+
+    document.getElementById("address").required = delivery;
+}
+
+// =====================================================
+// 20. ОФОРМЛЕНИЕ ЗАКАЗА
+// =====================================================
+
+async function submitOrder(event) {
+
+    event.preventDefault();
+
+    if (!currentUser) {
+
+        toast("Спочатку увійдіть до акаунта");
+
+        go("login");
+
+        return;
+    }
+
+    const form = event.target;
+
+    const button = form.querySelector(
+        'button[type="submit"]'
+    );
+
+    const items = cartItems();
+
+    if (!items.length) return;
+
+    const delivery = document.querySelector(
+        'input[name="delivery"]:checked'
+    ).value;
+
+    const name =
+        document.getElementById("customerName")
+            .value.trim();
+
+    const phone =
+        document.getElementById("phone")
+            .value.trim();
+
+    const email = currentUser.email;
+
+    const address =
+        delivery === "Доставка"
+            ? document.getElementById("address")
+                .value.trim()
+            : "";
+
+    const date =
+        document.getElementById("deliveryDate").value;
+
+    const payment = document.querySelector(
+        'input[name="payment"]:checked'
+    ).value;
+
+    if (
+        !name ||
+        !phone ||
+        !date ||
+        (delivery === "Доставка" && !address)
+    ) {
+
+        toast("Заповніть усі обов'язкові поля");
+
+        return;
+    }
+
+    const orderData = {
+
+        customerName: name,
+
+        phone: phone,
+
+        email: email,
+
+        deliveryMethod: delivery,
+
+        deliveryAddress: address || null,
+
+        // Сервер ожидает дату и время; время не выбирается покупателем.
+        deliveryDateTime: `${date}T00:00:00`,
+
+        paymentMethod: payment,
+
+        items: items.map(({p, qty}) => ({
+
+            productId: Number(p.product_id),
+
+            quantity: Number(qty)
+
+        }))
+    };
+
+    button.disabled = true;
+
+    button.textContent = "Оформлюємо замовлення...";
+
+    try {
+
+        const response = await fetch("/api/orders", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(orderData)
+        });
+
+        if (response.status === 401) {
+
+            currentUser = null;
+
+            updateAuthUI();
+
+            toast("Увійдіть до акаунта повторно");
+
+            go("login");
+
+            return;
+        }
+
+        if (!response.ok) {
+
+            const details = await response.text();
+
+            console.error(
+                "Помилка оформлення:",
+                response.status,
+                details
+            );
+
+            toast("Не вдалося оформити замовлення");
+
+            return;
+        }
+
+        const savedOrder = await response.json();
+
+        const orderId = Number(
+            savedOrder.order_id ?? savedOrder.orderId
+        );
+
+        const total = Number(
+            savedOrder.total_amount ?? savedOrder.totalAmount
+        );
+
+        cart = {};
+
+        renderCartCount();
+
+        document.getElementById("checkoutContent").innerHTML = `
+            <div class="empty">
+
+                <div class="emoji">💐</div>
+
+                <h1>
+                    Дякуємо, ${escapeHtml(name)}!
+                </h1>
+
+                <p>
+                    Замовлення №${orderId}
+                    успішно оформлено.
+                </p>
+
+                <p>
+                    Сума:
+                    <b>${money(total)}</b>
+                </p>
+
+
+
+                <button
+                    class="btn"
+                    onclick="go('orders')">
+
+                    Переглянути замовлення
+
+                </button>
+
+            </div>
+        `;
+
+        toast("Замовлення успішно оформлено!");
+
+        await loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        toast("Помилка з'єднання із сервером");
+
+    } finally {
+
+        if (button.isConnected) {
+
+            button.disabled = false;
+
+            button.textContent =
+                "Підтвердити замовлення ♡";
+        }
+    }
+}
+
+// =====================================================
+// 21. ЗАГРУЗКА ЗАКАЗОВ
+// =====================================================
+
+async function loadOrders() {
+
+    const el =
+        document.getElementById("ordersContent");
+
+    if (!currentUser) {
+
+        el.innerHTML = `
+            <div class="empty">
+
+                <div class="emoji">🌷</div>
+
+                <h2>Увійдіть до свого акаунта</h2>
+
+                <p class="muted">
+                    Щоб переглянути історію покупок,
+                    потрібно авторизуватися.
+                </p>
+
+                <button
+                    class="btn rose"
+                    onclick="go('login')">
+
+                    Увійти
+
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = `
+        <div class="empty">
+            <p>Завантаження замовлень...</p>
+        </div>
+    `;
+
+    try {
+
+        const response = await fetch("/api/orders");
+
+        if (response.status === 401) {
+
+            currentUser = null;
+
+            updateAuthUI();
+
+            el.innerHTML = `
+                <div class="empty">
+
+                    <h2>Потрібно увійти до акаунта</h2>
+
+                    <button
+                        class="btn rose"
+                        onclick="go('login')">
+
+                        Увійти
+
+                    </button>
+
+                </div>
+            `;
+
+            return;
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " + response.status
+            );
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                "Неправильний формат відповіді"
+            );
+        }
+
+        orders = data;
+
+        renderOrders();
+
+    } catch (error) {
+
+        console.error(error);
+
+        el.innerHTML = `
+            <div class="empty">
+
+                <div class="emoji">⚠️</div>
+
+                <h3>Не вдалося завантажити замовлення</h3>
+
+                <p class="muted">
+                    Спробуй оновити сторінку трохи пізніше.
+                </p>
+
+                <button
+                    class="btn"
+                    onclick="loadOrders()">
+
+                    Спробувати ще раз
+
+                </button>
+
+            </div>
+        `;
+    }
+}
+
+// =====================================================
+// 22. ОТОБРАЖЕНИЕ ЗАКАЗОВ
+// =====================================================
+
+function renderOrders() {
+
+    const el =
+        document.getElementById("ordersContent");
+
+    if (!orders.length) {
+
+        el.innerHTML = `
+            <div class="empty">
+
+                <div class="emoji">🌷</div>
+
+                <h2>Замовлень поки немає</h2>
+
+                <p class="muted">
+                    Історія твоїх замовлень
+                    з'явиться тут.
+                </p>
+
+                <button
+                    class="btn"
+                    onclick="go('catalog')">
+
+                    До каталогу
+
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = orders.map(o => {
+
+        const orderId = Number(o.order_id);
+
+        const total = Number(o.total_amount);
+
+        const orderDate = o.order_date
+            ? new Date(o.order_date)
+                .toLocaleString("uk-UA")
+            : "Дата не вказана";
+
+        return `
+            <article class="order">
+
+                <div class="order-top">
+
+                    <div>
+
+                        <b>
+                            Замовлення №${orderId}
+                        </b>
+
+                        <p class="muted" style="margin:6px 0">
+                            ${escapeHtml(orderDate)}
+                        </p>
+
+                    </div>
+
+                    <span class="status">
+                        ${escapeHtml(o.status)}
+                    </span>
+
+                </div>
+
+
+
+                <p class="muted">
+                    Отримання:
+                    ${escapeHtml(o.delivery_method)}
+                </p>
+
+                <p class="muted">
+                    Спосіб оплати:
+                    ${escapeHtml(o.payment_method)}
+                </p>
+
+                <div class="summary-row">
+
+                    <span class="muted">
+                        Сума замовлення
+                    </span>
+
+                    <b>${money(total)}</b>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
+
+// =====================================================
+// 23. ЗАВАНТАЖЕННЯ ТОВАРІВ
+// =====================================================
+
+async function loadProducts() {
+
+    try {
+
+        const response = await fetch("/api/products");
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " + response.status
+            );
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                "Неправильний формат відповіді"
+            );
+        }
+
+        products = data;
+
+        // Убираем из корзины товары,
+        // яких більше немає в каталозі.
+        for (const id of Object.keys(cart)) {
+
+            const product = getProduct(id);
+
+            if (!product) {
+
+                delete cart[id];
+
+            } else {
+
+                cart[id] = Math.min(
+                    cart[id],
+                    Number(product.quantity)
+                );
+
+                if (cart[id] <= 0) {
+                    delete cart[id];
+                }
+            }
+        }
+
+        renderProducts();
+        renderCartCount();
+
+    } catch (error) {
+
+        console.error(
+            "Помилка завантаження товарів:",
+            error
+        );
+
+        document.getElementById("catalogCount").textContent =
+            "Не вдалося завантажити товари";
+
+        const message = `
+            <div
+                class="empty"
+                style="grid-column:1/-1">
+
+                <h3>Помилка завантаження товарів</h3>
+
+                <p>
+                    Спробуй оновити сторінку трохи пізніше.
+                </p>
+
+            </div>
+        `;
+
+        document.getElementById("catalogProducts").innerHTML =
+            message;
+
+        toast("Не вдалося завантажити товари");
+    }
+}
+
+// =====================================================
+// 24. ЗАПУСК САЙТА
+// =====================================================
+
+async function initializeSite() {
+
+    renderProducts();
+
+    renderCartCount();
+
+    // Сначала проверяем, вошёл ли пользователь.
+    await checkAuth();
+
+    // Затем загружаем каталог.
+    await loadProducts();
+}
+
+initializeSite();
+
+</script>
+
+</body>
+</html>
