@@ -13,3 +13,5 @@ appsettings.Development.json
 
 # Тимчасові файли
 *.log
+publish/
+Kvitko-v1.0.0-win-x64.zip
